@@ -51,18 +51,18 @@ struct rte_mbuf *rte_pktmbuf_alloc(struct rte_mempool *mp)
 
 ```
 Data Fields
-void * 	buf_addr
+void * 	buf_addr /* buffer的虚拟地址 */
 struct rte_mbuf * next
 uint16_t 	refcnt
 uint16_t 	nb_segs
-uint16_t 	port
+uint16_t 	port /* 端口地址 */
 uint64_t 	ol_flags
-uint32_t 	pkt_len
-uint16_t 	data_len
+uint32_t 	pkt_len /* Total pkt len: sum of all segments. */
+uint16_t 	data_len /* Amount of data in segment buffer. */
 uint16_t 	vlan_tci
 uint16_t 	vlan_tci_outer
-uint16_t 	buf_len
-struct rte_mempool * 	pool
+uint16_t 	buf_len /* segment buffer的长度 */
+struct rte_mempool * pool /* mbuf的内存池 */
 uint64_t 	dynfield2
 struct rte_mbuf_ext_shared_info * shinfo
 uint16_t 	priv_size
@@ -101,14 +101,18 @@ union {
    uint32_t   usr
 } 	hash
 uint64_t 	tx_offload
-uint64_t 	l2_len:RTE_MBUF_L2_LEN_BITS
+uint64_t 	l2_len:RTE_MBUF_L2_LEN_BITS /* header的长度，l2为mac，l3为ip，l4为TCP/UDP */
 uint64_t 	l3_len:RTE_MBUF_L3_LEN_BITS
 uint64_t 	l4_len:RTE_MBUF_L4_LEN_BITS
 uint64_t 	tso_segsz:RTE_MBUF_TSO_SEGSZ_BITS
 uint64_t 	outer_l3_len:RTE_MBUF_OUTL3_LEN_BITS
 uint64_t 	outer_l2_len:RTE_MBUF_OUTL2_LEN_BITSte_mbuf
 ```
+根据官方文档，数据结构如上。我将一些比较重要的部分进行了解释。
 
+### Part 2: send packets with DPDK
+使用WireShark验证发送的数据包。在skeleton中，连续发送三个数据包，每个包的内容相同，为一句句子。具体内容可以见截图。
 
-
-参考资料：https://linuxcpp.0voice.com/?id=93574
+参考资料：</br>
+https://linuxcpp.0voice.com/?id=93574</br>
+https://doc.dpdk.org/api/structrte__mbuf.html
