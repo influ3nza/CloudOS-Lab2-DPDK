@@ -31,7 +31,84 @@ rte_pktmbuf_pool_create(const char *name,
 
 ```rte_eth_rx_burst```：用于从一个以太网接口的接收队列中读取数据包
 ```
-uint16_t rte_eth_rx_burst(uint16_t port_id, uint16_t queue_id,
-                          struct rte_mbuf **rx_pkts, const uint16_t nb_pkts);
+uint16_t rte_eth_rx_burst(uint16_t port_id,
+                          uint16_t queue_id,
+                          struct rte_mbuf **rx_pkts,
+                          const uint16_t nb_pkts);
+```
+1. port_id：指定要读取的以太网设备端口号
+2. queue_id：指定要读取的接收队列编号
+3. rx_pkts：指向一个rte_mbuf*类型数组，用于存储读取到的数据包
+4. nb_pkts：指定最多可以读取的数据包数量</br></br>
+
+```rte_pktmbuf_alloc```：从mp内存池中分配一个新的mbuf
+```
+struct rte_mbuf *rte_pktmbuf_alloc(struct rte_mempool *mp)
+```
+1. mp即为指定的mp内存池</br></br>
+
+>Q4: Describe the data structure of 'rte_mbuf'
+
+```
+Data Fields
+void * 	buf_addr
+struct rte_mbuf * next
+uint16_t 	refcnt
+uint16_t 	nb_segs
+uint16_t 	port
+uint64_t 	ol_flags
+uint32_t 	pkt_len
+uint16_t 	data_len
+uint16_t 	vlan_tci
+uint16_t 	vlan_tci_outer
+uint16_t 	buf_len
+struct rte_mempool * 	pool
+uint64_t 	dynfield2
+struct rte_mbuf_ext_shared_info * shinfo
+uint16_t 	priv_size
+uint16_t 	timesync
+uint32_t 	dynfield1 [9]
+uint32_t 	packet_type
+uint8_t 	l2_type:4
+uint8_t 	l3_type:4
+uint8_t 	l4_type:4
+uint8_t 	tun_type:4
+uint8_t 	inner_esp_next_proto
+uint8_t 	inner_l2_type:4
+uint8_t 	inner_l3_type:4
+uint8_t 	inner_l4_type:4
+uint32_t 	rss
+uint32_t 	lo
+uint32_t 	hi
+struct {
+   uint32_t   hi
+} 	fdir
+struct rte_mbuf_sched 	sched
+uint16_t 	txq
+struct {
+   uint16_t   txq
+} 	txadapter
+uint32_t 	usr
+union {
+   uint32_t   rss
+   struct {
+      uint32_t   hi
+   }   fdir
+   struct rte_mbuf_sched   sched
+   struct {
+      uint16_t   txq
+   }   txadapter
+   uint32_t   usr
+} 	hash
+uint64_t 	tx_offload
+uint64_t 	l2_len:RTE_MBUF_L2_LEN_BITS
+uint64_t 	l3_len:RTE_MBUF_L3_LEN_BITS
+uint64_t 	l4_len:RTE_MBUF_L4_LEN_BITS
+uint64_t 	tso_segsz:RTE_MBUF_TSO_SEGSZ_BITS
+uint64_t 	outer_l3_len:RTE_MBUF_OUTL3_LEN_BITS
+uint64_t 	outer_l2_len:RTE_MBUF_OUTL2_LEN_BITSte_mbuf
 ```
 
+
+
+参考资料：https://linuxcpp.0voice.com/?id=93574
